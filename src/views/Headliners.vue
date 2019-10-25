@@ -1,36 +1,46 @@
 <template>
-    <v-card style="max-width: 1280px; margin: 0 auto;">
-      <v-toolbar flat color="#e0e0e0">
-        <v-toolbar-title>Headliners</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn @click="showFilter = !showFilter" text>
-          filter<v-icon>{{ showFilter ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <v-expand-transition>
-        <v-slider
-          v-show="showFilter"
-          v-model="atLeast"
-          :label="'Min Events'"
-          :tick-labels="atLeastTicks"
-          min="1" max="10"
-          style="margin: 12px 24px;"
-        ></v-slider>
-      </v-expand-transition>
-      <main-table
-        :headers="headers" :items="items"
-      ></main-table>
-    </v-card>
+  <main-container>
+    <v-col>
+      <main-card
+        titleColor="red" title="Headliners"
+        @callDrawer="$emit('callDrawer')">
+        <template v-slot:tool-actions>
+          <v-btn @click="showFilter = !showFilter" text>
+            filter<v-icon>{{ showFilter ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+          </v-btn>
+        </template>
+        <template v-slot:more-actions>
+          <v-expand-transition>
+            <v-slider
+              v-show="showFilter"
+              v-model="atLeast"
+              :label="'Min Events'" :tick-labels="atLeastTicks"
+              min="1" max="10"
+              style="margin: 12px 24px;"
+              color="red darken-2" track-color="red lighten-3"
+            ></v-slider>
+          </v-expand-transition>
+        </template>
+        <main-table
+          :headers="headers" :items="items"
+        ></main-table>
+      </main-card>
+    </v-col>
+  </main-container>
 </template>
 
 <script>
-import data from '../data';
+import dataLogic from '../dataLogic';
 import MainTable from './components/MainTable.vue';
+import MainContainer from './components/MainContainer.vue';
+import MainCard from './components/MainCard.vue';
 
 export default {
   name: 'Headline',
   components: {
     'main-table': MainTable,
+    'main-container': MainContainer,
+    'main-card': MainCard,
   },
   data() {
     return {
@@ -62,13 +72,13 @@ export default {
       if (!trimed && trimed.length === 0) return null;
       let sum = 0;
       trimed.forEach((n) => { sum += n; });
-      return sum / trimed.length;
+      return Math.round(sum * 100 / trimed.length) / 100;
     },
     displayAll() {
-      const exps = data.headliners();
+      const exps = dataLogic.headliners();
       const ids = Object.keys(exps).filter(id => !!id);
       return ids.map((id) => {
-        const { name } = data.id2roster(id);
+        const { name } = dataLogic.id2roster(id);
         const events = exps[id];
         const count = events.length;
         let totalBuys = 0;

@@ -1,5 +1,10 @@
 const onlyUnique = (v, i, self) => self.indexOf(v) === i;
 
+const float2per = (raw) => {
+  const float = parseFloat(raw);
+  return float * 100;
+};
+
 const events = require('./adj_growth').map((data) => {
   const {
     date, buys, growth, adjGrowth, name,
@@ -8,8 +13,8 @@ const events = require('./adj_growth').map((data) => {
     date,
     name,
     buys: parseInt(buys, 10),
-    growth: (growth === '') ? null : parseFloat(growth),
-    adjGrowth: (adjGrowth === '') ? null : parseFloat(adjGrowth),
+    growth: (growth === '') ? null : float2per(growth),
+    adjGrowth: (growth === '' || adjGrowth === '') ? null : float2per(adjGrowth),
   };
 });
 
@@ -36,76 +41,13 @@ const eventCards = require('./cards').map((data) => {
   };
 });
 
-const roster = require('./roster');
-
-const headliners = () => {
-  const wrestlers = [];
-  const exps = {};
-  mainCards.forEach((card) => {
-    card.headliners.forEach((w) => {
-      const event = events.find(ev => ev.date === card.date);
-      if (!wrestlers.includes(w)) {
-        wrestlers.push(w);
-        exps[w] = [event];
-      } else {
-        exps[w].push(event);
-      }
-    });
-  });
-  return exps;
-};
-
-const features = () => {
-  const wrestlers = [];
-  const exps = {};
-  mainCards.forEach((card) => {
-    card.features.forEach((w) => {
-      const event = events.find(ev => ev.date === card.date);
-      if (!wrestlers.includes(w)) {
-        wrestlers.push(w);
-        exps[w] = [event];
-      } else {
-        exps[w].push(event);
-      }
-    });
-  });
-  return exps;
-};
-
-const id2roster = (id) => {
-  const wrestler = roster.find(w => w.id === id);
-  return wrestler;
-};
-
-const id2Exps = (id) => {
-  const name = id2roster(id);
-  if (!name) return null;
-  const hlEvents = headliners()[id];
-  const ftEvents = features()[id];
-  const hlYears = hlEvents
-    .map(ev => ev.date.slice(0, 4)).filter(onlyUnique);
-  const ftYears = ftEvents
-    .map(ev => ev.date.slice(0, 4)).filter(onlyUnique);
-  const years = [];
-  hlYears.forEach((year) => {
-    const evs = hlEvents.filter(ev => ev.date.slice(0, 4) === year);
-    const type = 'headlining';
-    years.push({ events: evs, type, year });
-  });
-  ftYears.forEach((year) => {
-    const evs = ftEvents.filter(ev => ev.date.slice(0, 4) === year);
-    const type = 'featuring';
-    years.push({ events: evs, type, year });
-  });
-  return years;
-};
+const roster = require('./roster')
+  .filter(w => mainCards
+    .some(c => c.features.includes(w.id) || c.headliners.includes(w.id)));
 
 export default {
-  headliners,
   mainCards,
   events,
   eventCards,
-  id2roster,
-  features,
-  id2Exps,
+  roster,
 };

@@ -1,47 +1,95 @@
 <template>
   <v-data-table
-    :headers="headers" :items="items"
-    sort-buy="count"
-    calculate-widths
+    :headers="modHeaders" :items="items"
+    sort-by="year"
+    calculate-widths single-expand :show-expand="false"
   >
-    <template v-slot:item="{ item }">
-      <tr>
-        <td class="text-start">{{ item.year }}</td>
-        <td class="text-start">{{ item.type }}</td>
-        <td class="text-start">{{ item.events.length }}</td>
-        <td class="text-start">{{ item.avgBuys }}</td>
-        <td class="text-start">
-          <v-chip :color="chipColor(item.avgGrow)">
-            {{ float2per(item.avgGrow) }}
+    <template v-slot:item="{ item, isExpanded, expand, headers }">
+      <tr @click="expand(!isExpanded);">
+        <td v-for="(h, i) in headers" :key="h.value"
+          :style="rowColor(item.type)" class="text-start"
+        >
+          <v-chip
+            v-if="isChip(h.value)"
+            :color="chipColor(item[h.value])"
+          >
+            {{ item[h.value] }}
           </v-chip>
-        </td>
-        <td class="text-start">
-          <v-chip :color="chipColor(item.avgAdj)">
-            {{ float2per(item.avgAdj) }}
-          </v-chip>
+          <span v-else-if="h.value === 'count'">
+            {{ item.events.length }}
+          </span>
+          <span v-else>
+            {{ item[h.value] }}
+          </span>
+          <v-icon v-if="i === headers.length - 1">
+            {{ isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-up' }}
+          </v-icon>
         </td>
       </tr>
+    </template>
+    <template v-slot:expanded-item="{ item, headers }">
+      <v-expand-transition v-for="event in item.events" :key="event.date">
+      <tr class="detail-row" style="background-color: #616161;">
+        <td v-if="headers.find(h => h.value === 'type')">
+          {{ event.date.slice(5) }}</td>
+        <td colspan="2">{{ event.name }}</td>
+        <td v-if="headers.find(h => h.value === 'avgBuys')">
+          {{ event.buys }}</td>
+        <td class="growth">
+          <span :style="`color: ${chipColor(event.growth)}`">
+            {{ Math.round(event.growth * 100) / 100 }}
+          </span>
+        </td>
+        <td class="growth">
+          <span :style="`color: ${chipColor(event.adjGrowth)}`">
+            {{ Math.round(event.adjGrowth * 100) / 100 }}
+          </span>
+        </td>
+        <td class="growth"></td>
+      </tr>
+      </v-expand-transition>
     </template>
   </v-data-table>
 </template>
 
 <script>
 export default {
-  name: 'MainTable',
+  name: 'PersonalTable',
   props: ['headers', 'items'],
-  methods: {
-    float2per(float) {
-      return Math.round(float * 10000) / 100;
+  data() {
+    return {
+    };
+  },
+  computed: {
+    modHeaders() {
+      const headers = this.headers
+        .concat([{ text: '', value: 'data-table-expand' }]);
+      return headers;
     },
+  },
+  methods: {
     chipColor(float) {
-      if (float < -0.02) return '#f44336';
-      if (float > 0.02) return '#4caf50';
+      if (float < -3) return '#E57373';
+      if (float > 3) return '#81C784';
       return '';
     },
+    rowColor(type) {
+      if (type !== 'headlining') return 'background-color: rgba(66, 66, 66, 0.1);';
+      return '';
+    },
+    isChip(key) { return key === 'avgGrow' || key === 'avgAdj'; },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
+.detail-row {
+  color: #eeeeee;
+  td { padding-left: 20px; }
+  .growth {
+    background-color: #424242;
+    padding-left: 36px;
+    color: #e0e0e0;
+  }
+}
 </style>
