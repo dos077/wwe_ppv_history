@@ -1,13 +1,17 @@
 <template>
   <v-data-table
     :headers="headers" :items="items"
-    sort-by="count" sort-desc
+    sort-by="avgGrow" sort-desc
     calculate-widths
   >
     <template v-slot:item="{ item, index }">
-      <tr @click="$router.push({ path: `/wrestler/${item.id}` })">
+      <tr>
         <td class="text-start">{{ index + 1 }}</td>
-        <td class="text-start">{{ item.name }}</td>
+        <td class="text-start">
+          <router-link :to="`/wrestler/${item.id}`"
+            class="profile-link"
+          >{{ item.name }}</router-link>
+        </td>
         <td class="text-start">{{ item.count }}</td>
         <td class="text-start">{{ item.totalBuys }}</td>
         <td class="text-start">{{ item.avgBuys }}</td>
@@ -41,5 +45,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.profile-link {
+  padding: 4px;
+  color: #424242;
+  background-color: #eeeeee;
+  font-weight: 500;
+  text-decoration: none;
+  &:hover {
+    color: #000;
+  }
+}
 </style>

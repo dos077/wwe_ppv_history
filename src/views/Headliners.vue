@@ -53,7 +53,7 @@ export default {
         { text: 'Growth%', value: 'avgGrow' },
         { text: 'Adjusted%', value: 'avgAdj' },
       ],
-      atLeast: 3,
+      atLeast: 4,
       atLeastTicks: '1 2 3 4 5 6 7 8 9 10'.split(' '),
       showFilter: false,
       headliners: this.displayAll(),

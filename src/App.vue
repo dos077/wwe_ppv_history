@@ -38,5 +38,13 @@ export default {
   data: () => ({
     drawerOn: null,
   }),
+  watch: {
+    $route: {
+      handler: (to) => {
+        document.title = to.meta.title || 'Biggest Draws in WWE';
+      },
+      immediate: true,
+    },
+  },
 };
 </script>

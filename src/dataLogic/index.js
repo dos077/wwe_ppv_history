@@ -86,6 +86,7 @@ const statPerYear = (wId) => {
 };
 
 export default {
+  getAvg,
   headliners,
   features,
   id2roster,

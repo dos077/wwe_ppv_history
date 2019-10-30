@@ -118,7 +118,8 @@ export default {
       }
       this.populateChart();
     },
-    w1id() {
+    w1id(newId) {
+      this.$router.push({ path: `/wrestler/${newId}` });
       this.populateChart();
     },
     graphSelected() {

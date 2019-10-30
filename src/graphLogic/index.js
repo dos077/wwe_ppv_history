@@ -21,6 +21,12 @@ const colors = {
   },
 };
 
+const count2r = (count) => {
+  if (count === 1) return 5;
+  if (count < 6) return (count - 1) * 2 + 5;
+  return (count - 5) + 13;
+};
+
 const mapData = (raw) => {
   const mainData = [];
   const adjData = [];
@@ -28,7 +34,7 @@ const mapData = (raw) => {
     year, events, avgGrow, avgAdj,
   }) => {
     const x = parseInt(year, 10);
-    if (avgGrow !== null) mainData.push({ x, y: avgGrow, r: events.length * 3 });
+    if (avgGrow !== null) mainData.push({ x, y: avgGrow, r: count2r(events.length) });
     if (avgAdj !== null) adjData.push({ x, y: avgAdj });
   });
   return [{ data: mainData }, { data: adjData }];

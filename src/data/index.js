@@ -7,11 +7,12 @@ const float2per = (raw) => {
 
 const events = require('./adj_growth').map((data) => {
   const {
-    date, buys, growth, adjGrowth, name,
+    date, buys, growth, adjGrowth, name, url,
   } = data;
   return {
     date,
     name,
+    url,
     buys: parseInt(buys, 10),
     growth: (growth === '') ? null : float2per(growth),
     adjGrowth: (growth === '' || adjGrowth === '') ? null : float2per(adjGrowth),
