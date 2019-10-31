@@ -9,4 +9,11 @@ new Vue({
   router,
   vuetify,
   render: h => h(App),
+  created() {
+    if (sessionStorage.redirect) {
+      const { redirect } = sessionStorage;
+      delete sessionStorage.redirect;
+      this.$router.push(redirect);
+    }
+  },
 }).$mount('#app');
