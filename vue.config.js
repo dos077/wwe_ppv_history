@@ -2,5 +2,6 @@ module.exports = {
   transpileDependencies: [
     'vuetify',
   ],
-  publicPath: '/wwe_ppv_history/',
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/wwe_ppv_history/' : '/',
 };
