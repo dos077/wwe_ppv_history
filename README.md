@@ -1,4 +1,4 @@
-# client
+# BiggestDraws
 
 ## Project setup
 ```
@@ -15,20 +15,9 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
+## About Project
 ```
-npm run test
-```
+Vuejs webapp displaying wrestler's career and yearly average of events they headlined or are featured in. Simple YoY growth and trend adjusted growth of WWE PPV events from 1985-2013 are linked with wrestlers according to importance of their cards.
 
-### Lints and fixes files
+Growth and adjusted growths are pre-calculated. All raw data are in csv format in the ./csv directory.
 ```
-npm run lint
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

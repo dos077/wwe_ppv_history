@@ -14,7 +14,7 @@
             </v-col>
             <v-col cols="12" offset-sm="1" sm="10" md="6">
               <p>
-                A little background on the origin and legitimacy of underlying data.. Most of the PPV buys were scrapped from <a href="http://www.2xzone.com/wwe/buyrates.shtml#.XbiaE-hKguU" target="new">2xzon.com</a>. Their stats are  either from WWE’s public filings or approximations using published buyrates. Some earlier, less prominent events’s buys were sourced from the internet/dirty sheets. While by no means the perfect datasets, the major events’ numbers are verified against multiple sources and the lesser events show no irregularities. If you spot any errors, please email me and I will update the data.</p>
+                A little background on the origin and legitimacy of underlying data.. Most of the PPV buys were scrapped from <a href="http://www.2xzone.com/wwe/buyrates.shtml#.XbiaE-hKguU" target="new">2xzon.com</a>. Their stats are  either from WWE’s public filings or approximations using published buyrates. Some earlier, less prominent events’s buys were sourced from the internet/dirty sheets. While by no means the perfect datasets, the major events’ numbers are verified against multiple sources and the lesser events show no irregularities. If you spot any errors, please raise the issue on Github.</p>
             </v-col>
             <v-col cols="12" offset-sm="1" offset-md="0" sm="10" md="4">
               <v-container>
@@ -24,6 +24,13 @@
                      href="http://www.2xzone.com/wwe/buyrates.shtml#.Xbnt5-hKguV">
                       <v-card-title>Pay-Per-View buyrates</v-card-title>
                       <v-card-subtitle>2xzone.com</v-card-subtitle>
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6" md="12">
+                    <v-card outlined target="new"
+                     href="https://github.com/dos077/wwe_ppv_history/issues">
+                      <v-card-title>Issues</v-card-title>
+                      <v-card-subtitle>Github</v-card-subtitle>
                     </v-card>
                   </v-col>
                 </v-row>
