@@ -2,7 +2,8 @@
   <v-data-table
     :headers="modHeaders" :items="items"
     sort-by="year"
-    calculate-widths single-expand :show-expand="false"
+    calculate-widths :mobile-breakpoint="1"
+    single-expand :show-expand="false"
   >
     <template v-slot:item="{ item, isExpanded, expand, headers }">
       <tr @click="expand(!isExpanded);">

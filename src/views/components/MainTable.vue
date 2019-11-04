@@ -1,12 +1,12 @@
 <template>
   <v-data-table
-    :headers="headers" :items="items"
+    :headers="modHeaders" :items="items"
     sort-by="avgGrow" sort-desc
-    calculate-widths
+    calculate-widths :mobile-breakpoint="1"
   >
     <template v-slot:item="{ item, index }">
       <tr>
-        <td class="text-start">{{ index + 1 }}</td>
+        <td v-if="!isMobile" class="text-start">{{ index + 1 }}</td>
         <td class="text-start">
           <router-link :to="`/wrestler/${item.id}`"
             class="profile-link"
@@ -39,6 +39,15 @@ export default {
       if (float < -3) return '#E57373';
       if (float > 3) return '#81C784';
       return '';
+    },
+  },
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.xsOnly;
+    },
+    modHeaders() {
+      if (this.isMobile) return this.headers;
+      return [{ text: 'Rank', value: 'rank' }].concat(this.headers);
     },
   },
 };

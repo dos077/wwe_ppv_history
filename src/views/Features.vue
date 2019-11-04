@@ -45,7 +45,6 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'Rank', value: 'rank' },
         { text: 'Name', value: 'name' },
         { text: 'Events', value: 'count' },
         { text: 'Total Buys', value: 'totalBuys' },

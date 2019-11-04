@@ -3,7 +3,7 @@
     :headers="modHeaders" :items="items"
     sort-by="events.length" sort-desc
     :show-expand="false" :single-expand="false"
-    calculate-widths
+    calculate-widths :mobile-breakpoint="1"
   >
     <template v-slot:item="{ item, index, isExpanded, expand }">
       <tr @click="expand(!isExpanded)">
@@ -36,7 +36,7 @@
     <template v-slot:expanded-item="{ item, headers }">
       <v-expand-transition v-for="event in item.events" :key="event.date">
       <tr class="detail-row" style="background-color: #616161;">
-        <td>
+        <td :style="$vuetify.breakpoint.smAndDown ? 'padding-left: 8px' : ''">
           {{ event.date.slice(5) }}</td>
         <td colspan="3">
           <a :href="event.url" target="new" class="event-link">
